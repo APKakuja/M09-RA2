@@ -1,4 +1,4 @@
-package actFils;
+
 
 public class Fil extends Thread {
     private String nom;
