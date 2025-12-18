@@ -1,11 +1,12 @@
+package actFils;
+
 public class Fil extends Thread {
     private String nom;
     private int iteracions;
     private int prioritat;
     private int delayMs;
     private int bucleSimulacio;
-    
-    
+   
     public Fil(String nom, int iteracions, int prioritat, int delayMs, int bucleSimulacio) {
         this.nom = nom;
         this.iteracions = iteracions;
@@ -20,6 +21,7 @@ public class Fil extends Thread {
     public void run() {
         try {
             for (int i = 1; i <= iteracions; i++) {
+                
                 for (int j = 0; j < bucleSimulacio; j++) {
                     Math.sqrt(j); 
                 }
