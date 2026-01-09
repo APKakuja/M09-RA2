@@ -3,9 +3,9 @@ package src;
 
 public class Futbolista extends Thread {
 
-    private int NUM_JUGADORS = 11;
-    private int NUM_TIRADES = 20;
-    private float PROBABILITAT = 0.5f;
+    public static int NUM_JUGADORS = 11;
+    public static int NUM_TIRADES = 20;
+    public static float PROBABILITAT = 0.5f;
     
     private int ngols;
     private int ntirades;
@@ -24,10 +24,19 @@ public void run() {
     for(int i = 0; i < NUM_TIRADES; i++) {
     ntirades ++;
 
-    if (Math.random() < PROBABILITAT) {
+    if (Math.random() > PROBABILITAT) {
         ngols ++;
-    }
+
+        System.out.println(getName() + " GOL! (" + ngols + " gols)");
+       }
 
     }
+}
+
+public int getNGols() {
+  return ngols; }
+
+public int getNTirades() {
+    return ntirades; 
 }
 }
