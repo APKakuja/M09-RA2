@@ -1,11 +1,10 @@
 package src;
 
-
 public class Futbolista extends Thread {
 
-    public static int NUM_JUGADORS = 11;
-    public static int NUM_TIRADES = 20;
-    public static float PROBABILITAT = 0.5f;
+    public static final int NUM_JUGADORS = 11;
+    public static final int NUM_TIRADES = 20;
+    public static final float PROBABILITAT = 0.5f;
     
     private int ngols;
     private int ntirades;
@@ -27,7 +26,7 @@ public void run() {
     if (Math.random() > PROBABILITAT) {
         ngols ++;
 
-        System.out.println(getName() + " GOL! (" + ngols + " gols)");
+        System.out.println(getName() + " GOL! :D (" + ngols + " gols)");
        }
 
     }
