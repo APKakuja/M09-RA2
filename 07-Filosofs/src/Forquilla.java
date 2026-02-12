@@ -18,4 +18,8 @@ public class Forquilla {
         return this.enUs;
      }
 
+     public void setEnUs(boolean enUs) { 
+        this.enUs = enUs; 
+    }
+
 }

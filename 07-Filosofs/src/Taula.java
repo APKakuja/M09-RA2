@@ -29,4 +29,18 @@ public class Taula {
             }
     }
 
+    public void cridarATaula() {
+    for (Filosof f : comensals) {
+        f.start();  
+       }
+    }
+
+    public static void main(String[] args) {
+    Taula t = new Taula(5);
+    t.showTaula(t.comensals);
+    t.cridarATaula();
+    }
+
+
+
 }

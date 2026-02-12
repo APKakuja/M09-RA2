@@ -27,18 +27,62 @@ public class Filosof extends Thread {
     public Forquilla forquillaDreta() {
         return forquillaDreta;
     }
-    
-    public synchronized void menjar() {
 
-    }   
-
-    public synchronized void pensar() {
-
+    public void pensar() { 
+        try { 
+        System.out.println("Filòsof: " + nom + " pensant");
+         Thread.sleep((long)(1000 + Math.random() * 1000)); 
+    } catch (InterruptedException e) {} 
 
     }
+
+    private void esperar() { 
+        try { Thread.sleep((long)(500 + Math.random() * 500)); 
+        } 
+        catch (InterruptedException e) {}
+     }
+
+    public void menjar() {
+
+    while (true) {
+
+        if (!forquillaEsquerra.isenUs()) {
+            forquillaEsquerra.setEnUs(true);
+            System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getForquilla());
+        } else {
+            esperar();
+            continue;
+        }
+
+        if (!forquillaDreta.isenUs()) {
+            forquillaDreta.setEnUs(true);
+            System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getForquilla());
+        } else {
+            System.out.println("Filòsof: " + nom + " deixa l'esquerra(" + forquillaEsquerra.getForquilla() + ") i espera (dreta ocupada)");
+            forquillaEsquerra.setEnUs(false);
+            esperar();
+            continue;
+        }
+
+        try {
+            System.out.println("Filòsof: " + nom + " menja");
+            Thread.sleep((long)(1000 + Math.random() * 1000)); // 1–2s
+        } catch (InterruptedException e) {}
+
+        forquillaEsquerra.setEnUs(false);
+        forquillaDreta.setEnUs(false);
+
+        System.out.println("Filòsof: " + nom + " ha acabat de menjar");
+        break;
+    }
+}
 
 @Override
-    public void run() {
-
+public void run() {
+    while (true) {
+        pensar();
+        menjar();
     }
+}
+
 }
