@@ -50,6 +50,7 @@ public class Filosof extends Thread {
             forquillaEsquerra.setEnUs(true);
             System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getForquilla());
         } else {
+            gana++;
             esperar();
             continue;
         }
@@ -60,12 +61,14 @@ public class Filosof extends Thread {
         } else {
             System.out.println("Filòsof: " + nom + " deixa l'esquerra(" + forquillaEsquerra.getForquilla() + ") i espera (dreta ocupada)");
             forquillaEsquerra.setEnUs(false);
+            gana++;
             esperar();
             continue;
         }
 
         try {
             System.out.println("Filòsof: " + nom + " menja");
+            gana = 0;
             Thread.sleep((long)(1000 + Math.random() * 1000)); // 1–2s
         } catch (InterruptedException e) {}
 
