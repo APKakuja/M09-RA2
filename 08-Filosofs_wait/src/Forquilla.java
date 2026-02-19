@@ -1,25 +1,40 @@
 public class Forquilla {
 
-    private int forquilla;
-    private boolean enUs;
+    public static final int LLIURE = -1;
 
+    private final int numero;      
+    private int propietari;     
 
-    public Forquilla(int forquilla) {
-
-        this.forquilla = forquilla;
-        this.enUs = false;
-    }
-    
-    public int getForquilla() {
-        return forquilla;
+    public Forquilla(int numero) {
+        this.numero = numero;
+        this.propietari = LLIURE;
     }
 
-    public boolean isenUs() { 
-        return this.enUs;
-     }
-
-     public void setEnUs(boolean enUs) { 
-        this.enUs = enUs; 
+    public int getNumero() {
+        return numero;
     }
 
+    public synchronized int getPropietari() {
+        return propietari;
+    }
+
+    public synchronized void setPropietari(int propietari) {
+        this.propietari = propietari;
+    }
+
+    public synchronized boolean isEnUs() {
+        return propietari != LLIURE;
+    }
+
+    public synchronized void agafar(int id) throws InterruptedException {
+        while (propietari != LLIURE) {
+            wait();
+        }
+        propietari = id;
+    }
+
+    public synchronized void deixar() {
+        propietari = LLIURE;
+        notifyAll();
+    }
 }

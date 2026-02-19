@@ -1,19 +1,16 @@
 public class Filosof extends Thread {
 
-    private String nom;
-    private int propietari;
-    private Forquilla forquillaEsquerra;
-    private Forquilla forquillaDreta;
+    private final String nom;
+    private final int id;
+    private final Forquilla esquerra;
+    private final Forquilla dreta;
     private int gana;
 
-
-
-    public Filosof(int propietari, Forquilla esquerra, Forquilla dreta) {
-
-        this.nom = "fil"+propietari;
-        this.propietari = propietari;
-        this.forquillaEsquerra = esquerra;
-        this.forquillaDreta = dreta;
+    public Filosof(int id, Forquilla esquerra, Forquilla dreta) {
+        this.id = id;
+        this.nom = "Fil" + id;
+        this.esquerra = esquerra;
+        this.dreta = dreta;
         this.gana = 0;
     }
 
@@ -21,71 +18,64 @@ public class Filosof extends Thread {
         return nom;
     }
 
-    public Forquilla forquillaEsquerra() {
-        return forquillaEsquerra;
+    public Forquilla getForquillaEsquerra() {
+        return esquerra;
     }
 
-    public Forquilla forquillaDreta() {
-        return forquillaDreta;
+    public Forquilla getForquillaDreta() {
+        return dreta;
     }
 
-    public void pensar() { 
-        try { 
-        System.out.println("Filòsof: " + nom + " pensant");
-         Thread.sleep((long)(1000 + Math.random() * 1000)); 
-    } catch (InterruptedException e) {} 
-
+    public void agafarForquillaEsquerra() {
+        try {
+            esquerra.agafar(id);
+            System.out.println(nom + " agafa la forquilla esquerra " + esquerra.getNumero());
+        } catch (InterruptedException e) {}
     }
 
-    private void esperar() { 
-        try { Thread.sleep((long)(500 + Math.random() * 500)); 
-        } 
-        catch (InterruptedException e) {}
-     }
+    public void agafarForquillaDreta() {
+        try {
+            dreta.agafar(id);
+            System.out.println(nom + " agafa la forquilla dreta " + dreta.getNumero());
+        } catch (InterruptedException e) {}
+    }
 
-    public void menjar() {
+    public void agafarForquilles() {
+        agafarForquillaEsquerra();
+        agafarForquillaDreta();
+    }
 
-    while (true) {
+    public void deixarForquilles() {
+        esquerra.deixar();
+        dreta.deixar();
+        System.out.println(nom + " deixa les forquilles");
+    }
 
-        if (!forquillaEsquerra.isenUs()) {
-            forquillaEsquerra.setEnUs(true);
-            System.out.println("Filòsof: " + nom + " agafa la forquilla esquerra " + forquillaEsquerra.getForquilla());
-        } else {
+
+    private void pensar() {
+        try {
             gana++;
-            esperar();
-            continue;
-        }
+            System.out.println(nom + " pensant...");
+            Thread.sleep((long)(1000 + Math.random() * 1000));
+        } catch (InterruptedException e) {}
+    }
 
-        if (!forquillaDreta.isenUs()) {
-            forquillaDreta.setEnUs(true);
-            System.out.println("Filòsof: " + nom + " agafa la forquilla dreta " + forquillaDreta.getForquilla());
-        } else {
-            System.out.println("Filòsof: " + nom + " deixa l'esquerra(" + forquillaEsquerra.getForquilla() + ") i espera (dreta ocupada)");
-            forquillaEsquerra.setEnUs(false);
-            gana++;
-            esperar();
-            continue;
-        }
+    private void menjar() {
+        agafarForquilles();
 
         try {
-            System.out.println("Filòsof: " + nom + " menja");
-            gana = 0;
-            Thread.sleep((long)(1000 + Math.random() * 1000)); // 1–2s
+            System.out.println(nom + " MENJANT");
+            Thread.sleep((long)(1000 + Math.random() * 1000));
         } catch (InterruptedException e) {}
 
-        forquillaEsquerra.setEnUs(false);
-        forquillaDreta.setEnUs(false);
-
-        System.out.println("Filòsof: " + nom + " ha acabat de menjar");
-        break;
+        deixarForquilles();
     }
-}
 
-@Override
-public void run() {
-    while (true) {
-        pensar();
-        menjar();
+    @Override
+    public void run() {
+        while (true) {
+            pensar();
+            menjar();
+        }
     }
-  }
 }
