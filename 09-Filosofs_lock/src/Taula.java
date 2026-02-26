@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Taula {
 
-    private List<Filosof> comensals = new ArrayList<>();
-    private List<Forquilla> forquilles = new ArrayList<>();
+    private final List<Filosof> comensals = new ArrayList<>();
+    private final List<Forquilla> forquilles = new ArrayList<>();
 
     public Taula(int numFilosofs) {
 
@@ -16,7 +16,8 @@ public class Taula {
             Forquilla esquerra = forquilles.get(i);
             Forquilla dreta = forquilles.get((i + 1) % numFilosofs);
 
-            comensals.add(new Filosof(i, esquerra, dreta));
+            Filosof f = new Filosof("Fil" + i, esquerra, dreta);
+            comensals.add(f);
         }
     }
 
