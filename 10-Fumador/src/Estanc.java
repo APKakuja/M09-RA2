@@ -2,106 +2,104 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Estanc {
-    
+public class Estanc extends Thread {
 
-    private final List<Tabac> tabaco;
+    private final List<Tabac> tabac;
     private final List<Paper> paper;
     private final List<Llumi> llumi;
     private boolean obert = true;
+    private final Random r = new Random();
 
-
-    public Estanc() { 
-        tabaco = new ArrayList<>(); 
-        llumi = new ArrayList<>(); 
-        paper = new ArrayList<>(); 
+    public Estanc() {
+        tabac = new ArrayList<>();
+        paper = new ArrayList<>();
+        llumi = new ArrayList<>();
     }
 
-    public List<Llumi> getLlumi() {
-        return llumi;
+    public synchronized void addTabac() {
+        tabac.add(new Tabac());
+        System.out.println("Afegint tabac");
+        notifyAll();
     }
 
-    public List<Tabac> getTabac() {
-        return tabaco;
+    public synchronized void addPaper() {
+        paper.add(new Paper());
+        System.out.println("Afegint Paper");
+        notifyAll();
     }
 
-    public List<Paper> getPaper() {
-        return paper;
+    public synchronized void addLlumi() {
+        llumi.add(new Llumi());
+        System.out.println("Afegint Llumí");
+        notifyAll();
     }
 
-
-    public void addTabac() {
-        Tabac t = new Tabac();
-        tabaco.add(t);
-    }
-
-   public void addPaper() {
-        Paper p = new Paper();
-        paper.add(p);
-   }
-
-   public void addLlumi() {
-        Llumi l = new Llumi();
-        llumi.add(l);
-   }
-
-
-    public void nouSubministrament() {
-        Random r = new Random();
+    public synchronized void nouSubministrament() {
         int num = r.nextInt(3);
-
-        if (num == 0 ) {
+        if (num == 0) {
             addTabac();
-        } else if (num == 1 ) {
+        } else if (num == 1) {
             addPaper();
-        } else 
+        } else {
             addLlumi();
-    }
-
-
-    public Tabac venTabac() {
-    if (tabaco.isEmpty()) {
-        return null;
-    }
-
-    Tabac t = tabaco.get(0);
-    tabaco.remove(0);
-
-    return t;
-}
-
-    public Paper venPaper() {
-        if (paper.isEmpty()) {
-            return null;
-        }
-
-        Paper p = paper.get(0);
-        paper.remove(0);
-
-        return p;
-    }
-
-
-public void run() {
-    while (obert) {
-        nouSubministrament();
-         int temps = 500 + (int)(Math.random() * 500); 
-        try {
-            Thread.sleep(temps);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
+
+    public synchronized Tabac venTabac() {
+        while (tabac.isEmpty() && obert) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                return null;
+            }
+        }
+        if (!obert || tabac.isEmpty()) return null;
+        return tabac.remove(0);
+    }
+
+    public synchronized Paper venPaper() {
+        while (paper.isEmpty() && obert) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                return null;
+            }
+        }
+        if (!obert || paper.isEmpty()) return null;
+        return paper.remove(0);
+    }
+
+    public synchronized Llumi venLlumi() {
+        while (llumi.isEmpty() && obert) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                return null;
+            }
+        }
+        if (!obert || llumi.isEmpty()) return null;
+        return llumi.remove(0);
+    }
+
+    public void run() {
+        System.out.println("Estanc obert");
+        while (true) {
+            synchronized (this) {
+                if (!obert) break;
+            }
+            nouSubministrament();
+            int temps = 500 + r.nextInt(1000); // 0.5–1.5 s
+            try {
+                Thread.sleep(temps);
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+        System.out.println("Estanc tancat");
+    }
+
+    public synchronized void tancarEstanc() {
+        obert = false;
+        notifyAll();
+    }
 }
-
- public void tancarEstanc() {
-    obert = false;
-}
-
-
-}
-
-    
-    
-
-

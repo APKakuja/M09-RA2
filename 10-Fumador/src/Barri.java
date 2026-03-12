@@ -1,18 +1,33 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Barri {
 
-    private final List<Fumador> fumadors = new ArrayList<>();
-    public Barri(int nFumadors) {
-        Estanc e = new Estanc();
+    private Estanc estanc;
+    private Fumador[] fumadors;
 
-        Fumador f1 = new Fumador(1, e);
-        Fumador f2 = new Fumador(2, e);
-        Fumador f3 = new Fumador(3, e);
+    public Barri() {
+        estanc = new Estanc();
+        fumadors = new Fumador[3];
 
-        e.run();
+        fumadors[0] = new Fumador(0, estanc);
+        fumadors[1] = new Fumador(1, estanc);
+        fumadors[2] = new Fumador(2, estanc);
 
-        e.tancarEstanc();
+        estanc.start();
+        for (Fumador f : fumadors) {
+            f.start();
+        }
+
+        for (Fumador f : fumadors) {
+            try {
+                f.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        estanc.tancarEstanc();
+    }
+
+    public static void main(String[] args) {
+        new Barri();
     }
 }
