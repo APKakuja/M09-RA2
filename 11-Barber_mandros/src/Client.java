@@ -1,18 +1,16 @@
-
-public class Client extends Thread {
+public class Client {
 
     private String nom;
 
+    public Client(int id) {
+        this.nom = "Client-" + id;
+    }
 
     public String getNom() {
         return nom;
     }
 
-    public Client(int id) {
-        this.nom = "Client_" + id;
-    }
-
     public void tallarseElCabell() {
-        
-    }
+    System.out.println(nom + " ja té el cabell tallat");
+}
 }
