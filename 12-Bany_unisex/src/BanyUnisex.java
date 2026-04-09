@@ -1,5 +1,4 @@
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.LockSupport;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class BanyUnisex {
@@ -32,7 +31,7 @@ public class BanyUnisex {
                 lockEstat.unlock();
             }
 
-            LockSupport.parkNanos(1_000_000L);
+            esperaBreu();
         }
     }
 
@@ -55,7 +54,16 @@ public class BanyUnisex {
                 lockEstat.unlock();
             }
 
-            LockSupport.parkNanos(1_000_000L);
+            esperaBreu();
+        }
+    }
+
+
+    private void esperaBreu() {
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 

@@ -16,12 +16,16 @@ public class Home extends Thread {
         bany.entraHome();
 
         try {
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
+            utilitzaLavabo();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
             bany.surtHome();
             System.out.println(nom + " ha acabat d'usar el bany");
         }
+    }
+
+    private void utilitzaLavabo() throws InterruptedException {
+        Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
     }
 }

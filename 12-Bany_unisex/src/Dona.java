@@ -16,12 +16,16 @@ public class Dona extends Thread {
 		bany.entraDona();
 
 		try {
-			Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 3001));
+			utilitzaLavabo();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		} finally {
 			bany.surtDona();
 			System.out.println(nom + " ha acabat d'usar el bany");
 		}
+	}
+
+	private void utilitzaLavabo() throws InterruptedException {
+		Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 3001));
 	}
 }
