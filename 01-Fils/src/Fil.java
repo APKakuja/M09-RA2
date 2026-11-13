@@ -1,12 +1,26 @@
-public class Fil {
+public class Fil extends Thread {
     
     private String nom;
-    private int comptadorTorns;
     private int delay;
-    private boolean prioritat;
-    private int bucle;
 
-    private static final Object lock = new Object();
-    private static boolean tornJuan = true;
+    public Fil(String nom, int delay, int prioritat) {
+        this.delay = delay;
+        this.nom = nom;
+        this.setPriority(prioritat);
+    }
+
+
+    @Override 
+
+    public void run() {
+            for (int i = 0; i < 1000; i++) {
+
+                for (int j = 0; j < delay; j++) {
+
+                }
+                System.out.println(nom + " " + i);
+            }
+            System.out.println("Acaba el fil " + nom);
+    }
 
 }
