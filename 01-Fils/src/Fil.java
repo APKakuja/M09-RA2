@@ -3,24 +3,28 @@ public class Fil extends Thread {
     private String nom;
     private int delay;
 
-    public Fil(String nom, int delay, int prioritat) {
-        this.delay = delay;
+
+    public Fil(String nom,int prioritat, int delay) {
         this.nom = nom;
         this.setPriority(prioritat);
+        this.delay = delay;
     }
 
+    
+@Override
+public void run() {
 
-    @Override 
+    for (int i = 1; i <= 1000; i++) {
 
-    public void run() {
-            for (int i = 0; i < 1000; i++) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+        }
 
-                for (int j = 0; j < delay; j++) {
-
-                }
-                System.out.println(nom + " " + i);
-            }
-            System.out.println("Acaba el fil " + nom);
+        System.out.println(nom + " " + i);
     }
+
+    System.out.println("Acaba el fil " + nom);
+}
 
 }

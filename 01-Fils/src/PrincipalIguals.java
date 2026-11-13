@@ -2,8 +2,8 @@ public class PrincipalIguals {
 
     public static void main(String[] args) {
 
-        Fil juan = new Fil("Juan", 1000, Thread.NORM_PRIORITY);
-        Fil pepe = new Fil("Pepe", 1000, Thread.NORM_PRIORITY);
+        Fil juan = new Fil("Juan", Thread.MAX_PRIORITY, 0);
+        Fil pepe = new Fil("Pepe", Thread.MAX_PRIORITY, 0);
 
         juan.start();
         pepe.start();
