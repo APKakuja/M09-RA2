@@ -30,6 +30,13 @@ public class DormAleatori extends Thread {
     }
 
     public static void main(String[] args) {
-        DormAleatori Joan = new DormAleatori();
+
+        DormAleatori joan = new DormAleatori("Joan");
+        DormAleatori pep = new DormAleatori("Pep");
+
+        joan.start();
+        pep.start();
+
+        System.out.println("-- Fi de main ----------------------");
     }
 }
